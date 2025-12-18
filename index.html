@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoViz 2025 - Master the Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                darkest: '#0a0a0a',
+                dark: '#121212',
+                blue: '#1a1a1a',
+                teal: '#00f5ff',
+                light: '#FEFCFB',
+              }
+            },
+            animation: {
+              'spin-slow': 'spin 12s linear infinite',
+              'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'grid-move': 'gridMove 20s linear infinite',
+              'scan': 'scan 3s linear infinite',
+            },
+            keyframes: {
+              pulseGlow: {
+                '0%, 100%': { opacity: 0.2, transform: 'scale(1)' },
+                '50%': { opacity: 0.4, transform: 'scale(1.1)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              gridMove: {
+                '0%': { backgroundPosition: '0 0' },
+                '100%': { backgroundPosition: '40px 40px' },
+              },
+              scan: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(100%)' }
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #0a0a0a;
+        color: #FEFCFB;
+        overflow-x: hidden;
+      }
+      .perspective-2000 {
+        perspective: 2000px;
+      }
+      .preserve-3d {
+        transform-style: preserve-3d;
+      }
+      .cyber-grid {
+        background-image: 
+          linear-gradient(to right, rgba(0, 245, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 245, 255, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(ellipse at center, black, transparent 85%);
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .glass-card-accent {
+        background: rgba(0, 245, 255, 0.02);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(0, 245, 255, 0.1);
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0a0a0a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #00f5ff;
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(0, 245, 255, 0.2);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.25",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

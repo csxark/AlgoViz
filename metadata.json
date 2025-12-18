@@ -1,0 +1,8 @@
+{
+  "name": "DSA visuals ",
+  "description": "An interactive educational platform for visualizing and understanding data structures.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
