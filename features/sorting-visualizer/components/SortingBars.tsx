@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SortStep } from '../types';
@@ -19,24 +20,24 @@ export const SortingBars: React.FC<SortingBarsProps> = ({ step, maxValue }) => {
   };
 
   return (
-    <div className="flex items-end justify-center gap-[1px] sm:gap-[2px] h-full w-full px-4">
+    <div className="flex items-end justify-center gap-[0.5px] sm:gap-[2px] h-full w-full px-2 sm:px-4">
       {array.map((value, index) => {
         const heightPercent = (value / maxValue) * 100;
         const color = getBarColor(index);
         
         return (
           <motion.div
-            key={index} // Using index as key for stability in swapping animations if using layout, but standard react update is fine for bars
+            key={index}
             initial={false}
             animate={{ 
               height: `${heightPercent}%`, 
               backgroundColor: color 
             }}
-            transition={{ type: 'tween', duration: 0.1 }} // Fast transition for smooth updates
-            className="flex-1 rounded-t-sm min-w-[2px] relative group"
+            transition={{ type: 'tween', duration: 0.1 }}
+            className="flex-1 rounded-t-sm min-w-[1px] relative group"
           >
-            {/* Tooltip for value */}
-            <div className="opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-800 text-white text-[10px] px-1 rounded pointer-events-none z-10">
+            {/* Tooltip for value - only show if there's space */}
+            <div className="hidden sm:group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-800 text-white text-[10px] px-1 rounded pointer-events-none z-10">
               {value}
             </div>
           </motion.div>

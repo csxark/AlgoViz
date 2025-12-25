@@ -6,7 +6,7 @@ import { ControlPanel } from './components/ControlPanel';
 import { ArrayDisplay } from './components/ArrayDisplay';
 import { Button } from '../../shared/components/Button';
 import { Header } from '../../shared/components/Header';
-// import { ChatPanel } from '../ai-tutor/ChatPanel';
+import { ChatPanel } from '../ai-tutor/ChatPanel';
 import { MobileLandscapeAlert } from '../../shared/components/MobileLandscapeAlert';
 
 interface SegmentTreeVisualizerProps {

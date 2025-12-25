@@ -9,7 +9,7 @@ export const WhyStructVizSection: React.FC = () => {
         <h2 className="text-3xl font-bold text-white mb-8">Why StructViz?</h2>
         {[
           { icon: Zap, title: "Visual Learning", desc: "Algorithms come to life with high-frame-rate animations." },
-          { icon: Cpu, title: "AI-Powered", desc: "Built with GenAI to provide intelligent, context-aware explanations." },
+          { icon: Cpu, title: "AI-Powered", desc: "Built with Gemini 3 Pro to provide intelligent, context-aware explanations." },
           { icon: Heart, title: "Accessible", desc: "Designed for students, boot-campers, and life-long learners." }
         ].map((item, i) => (
           <motion.div 

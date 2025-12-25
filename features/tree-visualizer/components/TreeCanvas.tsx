@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { TreeNode } from './TreeNode';
@@ -11,7 +12,7 @@ interface TreeCanvasProps {
 
 export const TreeCanvas: React.FC<TreeCanvasProps> = ({ nodes, edges }) => {
   return (
-    <div className="w-full h-[400px] sm:h-[500px] lg:h-[600px] bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-inner relative">
+    <div className="w-full h-full bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-inner relative canvas-container">
       {/* Grid Background */}
       <div className="absolute inset-0 opacity-10" 
            style={{ 

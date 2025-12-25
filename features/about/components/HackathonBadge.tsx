@@ -8,9 +8,9 @@ export const HackathonBadge: React.FC = () => {
         <User className="w-4 h-4 text-gray-400" />
         <span className="text-sm font-medium text-gray-300">Creator</span>
       </div>
-      <h2 className="text-3xl font-bold text-white mb-6">GenAI Hackathon 2025</h2>
+      <h2 className="text-3xl font-bold text-white mb-6">Gemini 3 Pro Hackathon 2025</h2>
       <p className="text-gray-400 mb-8">
-        This project was built in 7 days to showcase the advanced reasoning and multimodal capabilities of Google's GenAI model. It serves as a proof-of-concept for the future of AI-assisted education.
+        This project was built in 7 days to showcase the advanced reasoning and multimodal capabilities of Google's Gemini 3 Pro model. It serves as a proof-of-concept for the future of AI-assisted education.
       </p>
       <div className="flex justify-center space-x-8">
         <div className="flex flex-col items-center">

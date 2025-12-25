@@ -145,7 +145,7 @@ const DemoVisualizer = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto glass-card rounded-3xl p-8 border-[#00f5ff]/20 bg-black/40 backdrop-blur-xl">
+    <div className="w-full max-w-2xl mx-auto glass-card rounded-2xl md:rounded-3xl p-4 md:p-8 border-[#00f5ff]/20 bg-black/40 backdrop-blur-xl">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center space-x-2">
           <Terminal className="w-4 h-4 text-[#00f5ff]" />
@@ -161,7 +161,7 @@ const DemoVisualizer = () => {
         </div>
       </div>
       
-      <div className="flex items-end justify-between h-40 gap-2">
+      <div className="flex items-end justify-between h-40 gap-1 md:gap-2">
         {elements.map((h, i) => (
           <motion.div
             key={i}
@@ -198,7 +198,7 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
       />
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-8 py-6 flex items-center justify-between backdrop-blur-md bg-black/10 border-b border-white/5">
+      <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-6 flex items-center justify-between backdrop-blur-md bg-black/10 border-b border-white/5">
         <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <div className="w-8 h-8 rounded-lg bg-[#00f5ff]/10 border border-[#00f5ff]/30 flex items-center justify-center group-hover:bg-[#00f5ff]/20 transition-all">
             <Layers className="w-4 h-4 text-[#00f5ff]" />
@@ -207,7 +207,7 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
         </div>
         {/* <button 
           onClick={() => onNavigate('binary-search')}
-          className="text-xs font-bold uppercase tracking-widest text-[#00f5ff] border-b border-[#00f5ff]/0 hover:border-[#00f5ff] transition-all"
+          className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-[#00f5ff] border-b border-[#00f5ff]/0 hover:border-[#00f5ff] transition-all"
         >
           Initialize Sandbox
         </button> */}
@@ -216,7 +216,7 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
       <main className="relative z-10">
         
         {/* HERO SECTION */}
-        <section className="h-[90vh] flex flex-col items-center justify-center text-center px-4">
+        <section className="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20">
           <motion.div style={{ opacity, scale }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -226,7 +226,7 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
             >
               <Zap className="w-3 h-3 text-[#00f5ff] animate-pulse" />
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#00f5ff]">
-                NEW PROTOCOLS LIVE
+                INTERACTIVE ALGORITHM LABS
               </span>
             </motion.div>
 
@@ -234,35 +234,35 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase mb-12"
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.85] md:leading-[0.8] uppercase mb-12"
             >
-              Visualize.<br />
-              Understand.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-white">Master.</span>
+              Visualize<br />
+              Understand<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-white">Master</span>
             </motion.h1>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-6"
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6"
             >
               <button 
                 onClick={() => document.getElementById('protocols')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group relative px-12 py-5 bg-[#00f5ff] text-black font-black text-lg rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(0,245,255,0.4)]"
+                className="w-full sm:w-auto group relative px-8 md:px-12 py-4 md:py-5 bg-[#00f5ff] text-black font-black text-base md:text-lg rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(0,245,255,0.4)]"
               >
-                <span className="relative z-10 flex items-center uppercase tracking-tighter">
-                  OPEN PROTOCOL DIRECTORY <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center justify-center uppercase tracking-tighter">
+                  OPEN PROTOCOLS <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </button>
 
               <button 
                 onClick={() => onNavigate('documentation')}
-                className="group relative px-12 py-5 border-2 border-[#00f5ff]/30 text-[#00f5ff] font-black text-lg rounded-full overflow-hidden transition-all hover:border-[#00f5ff] hover:bg-[#00f5ff]/5"
+                className="w-full sm:w-auto group relative px-8 md:px-12 py-4 md:py-5 border-2 border-[#00f5ff]/30 text-[#00f5ff] font-black text-base md:text-lg rounded-full overflow-hidden transition-all hover:border-[#00f5ff] hover:bg-[#00f5ff]/5"
               >
-                <span className="relative z-10 flex items-center uppercase tracking-tighter">
-                  NEURAL DOCUMENTATION <FileText className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center justify-center uppercase tracking-tighter">
+                  DOCUMENTATION <FileText className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <div className="absolute inset-0 bg-[#00f5ff]/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </button>
@@ -271,9 +271,9 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
         </section>
 
         {/* PROTOCOLS SECTION */}
-        <section id="protocols" className="py-32 px-8">
+        <section id="protocols" className="py-20 md:py-32 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
-            <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="mb-12 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div className="max-w-xl">
                 <div className="flex items-center space-x-2 text-[#00f5ff] mb-4">
                   <Box className="w-5 h-5" />
@@ -282,11 +282,11 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
                 <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none mb-6">
                   Select <span className="text-[#00f5ff]">Structure</span>
                 </h2>
-                <p className="text-[#fefcfb]/50 text-lg">
+                <p className="text-[#fefcfb]/50 text-base md:text-lg">
                   Access specialized environments designed for high-fidelity spatial reasoning and algorithmic mastery.
                 </p>
               </div>
-              <div className="hidden md:block">
+              <div className="hidden md:block shrink-0">
                 <div className="text-right">
                   <div className="text-[10px] font-mono text-[#00f5ff]/40 uppercase tracking-widest mb-1">System Load</div>
                   <div className="flex space-x-1 justify-end mb-4">
@@ -298,7 +298,7 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {DATA_STRUCTURES.map((ds, i) => (
                 <motion.div
                   key={ds.id}
@@ -309,12 +309,12 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
                   onClick={() => onNavigate(ds.id)}
                   className="group relative cursor-pointer"
                 >
-                  <div className="h-full glass-card rounded-2xl p-8 border-white/5 bg-white/[0.02] backdrop-blur-md transition-all duration-500 group-hover:border-[#00f5ff]/40 group-hover:bg-[#00f5ff]/5 group-hover:-translate-y-1">
-                    <div className="mb-8 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:bg-[#00f5ff]/20 group-hover:border-[#00f5ff]/30 transition-all">
-                      <ds.icon className="w-6 h-6 text-white/40 group-hover:text-[#00f5ff] transition-colors" />
+                  <div className="h-full glass-card rounded-2xl p-6 md:p-8 border-white/5 bg-white/[0.02] backdrop-blur-md transition-all duration-500 group-hover:border-[#00f5ff]/40 group-hover:bg-[#00f5ff]/5 group-hover:-translate-y-1">
+                    <div className="mb-6 md:mb-8 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:bg-[#00f5ff]/20 group-hover:border-[#00f5ff]/30 transition-all">
+                      <ds.icon className="w-5 h-5 md:w-6 md:h-6 text-white/40 group-hover:text-[#00f5ff] transition-colors" />
                     </div>
-                    <h3 className="text-xl font-bold uppercase tracking-tighter mb-3 group-hover:text-[#00f5ff] transition-colors">{ds.title}</h3>
-                    <p className="text-sm text-[#fefcfb]/40 leading-relaxed mb-8 group-hover:text-[#fefcfb]/70 transition-colors">
+                    <h3 className="text-lg md:text-xl font-bold uppercase tracking-tighter mb-3 group-hover:text-[#00f5ff] transition-colors">{ds.title}</h3>
+                    <p className="text-xs md:text-sm text-[#fefcfb]/40 leading-relaxed mb-6 md:mb-8 group-hover:text-[#fefcfb]/70 transition-colors">
                       {ds.description}
                     </p>
                     <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-[#00f5ff] opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
@@ -328,31 +328,31 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
         </section>
 
         {/* DEMO SECTION */}
-        {/* <section className="py-32 px-8 bg-gradient-to-b from-transparent to-[#0a0a0a]/80">
+        {/* <section className="py-20 md:py-32 px-4 md:px-8 bg-gradient-to-b from-transparent to-[#0a0a0a]/80">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-20">
+            <div className="text-center mb-16 md:mb-20">
               <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">Real-Time Labs</h2>
-              <p className="text-[#00f5ff]/70 font-medium max-w-xl mx-auto">Interactive simulations allow you to step through code and watch logic execute frame-by-frame.</p>
+              <p className="text-[#00f5ff]/70 font-medium max-w-xl mx-auto text-sm md:text-base">Interactive simulations allow you to step through code and watch logic execute frame-by-frame.</p>
             </div>
             <DemoVisualizer />
           </div>
         </section> */}
 
-        {/* TEACHSTACK INTEGRATION SECTION */}
-        <section className="py-40 px-8 relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#00f5ff]/5 rounded-full blur-[120px]" />
+        {/* INTEGRATION SECTION */}
+        <section className="py-20 md:py-40 px-4 md:px-8 relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-[#00f5ff]/5 rounded-full blur-[60px] md:blur-[120px]" />
           <div className="max-w-4xl mx-auto relative z-10">
-            <div className="glass-card rounded-[3rem] p-12 md:p-20 border-white/5 bg-white/[0.02] backdrop-blur-2xl text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-10 border border-white/10">
-                <Code2 className="w-8 h-8 text-[#00f5ff]" />
+            <div className="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-20 border-white/5 bg-white/[0.02] backdrop-blur-2xl text-center">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-8 md:mb-10 border border-white/10">
+                <Code2 className="w-6 h-6 md:w-8 md:h-8 text-[#00f5ff]" />
               </div>
-              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-8 leading-tight">
-                Embed  AlgoViz directly into your  <span className="text-[#00f5ff]">TeachStack</span> course.
+              <h2 className="text-2xl md:text-5xl font-black uppercase tracking-tighter mb-6 md:mb-8 leading-tight">
+                Embed AlgoViz directly into your <span className="text-[#00f5ff]">TechStack</span> course.
               </h2>
-              <p className="text-xl text-[#fefcfb]/60 mb-12 leading-relaxed">
+              <p className="text-base md:text-xl text-[#fefcfb]/60 mb-8 md:mb-12 leading-relaxed">
                 Provide your students with interactive labs without leaving your curriculum. No setup. No code overhead. Pure educational acceleration.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 text-xs font-bold uppercase tracking-widest">
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 text-[10px] md:text-xs font-bold uppercase tracking-widest">
                 <span className="flex items-center text-[#00f5ff]"><Plus className="w-4 h-4 mr-2" /> 1-Click Integration</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-white/20 hidden sm:block" />
                 <span className="flex items-center opacity-60">LTI Compliant</span>
@@ -364,20 +364,20 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
         </section>
 
         {/* CTA FOOTER */}
-        <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden bg-black">
+        <section className="min-h-[70vh] md:min-h-screen flex items-center justify-center px-4 relative overflow-hidden bg-black">
           <div className="absolute inset-0 bg-gradient-to-t from-[#00f5ff]/10 to-transparent" />
           <div className="text-center relative z-10">
-            <h2 className="text-5xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter mb-16 leading-none">
+            <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter mb-10 md:mb-16 leading-none">
               READY TO<br /><span className="text-[#00f5ff]">DECODE?</span>
             </h2>
             <button 
               onClick={() => onNavigate('sorting')}
-              className="group relative inline-flex items-center px-20 py-10 bg-white text-black font-black text-2xl uppercase tracking-tighter rounded-2xl hover:scale-105 hover:bg-[#00f5ff] transition-all duration-500"
+              className="group relative inline-flex items-center px-10 md:px-20 py-6 md:py-10 bg-white text-black font-black text-xl md:text-2xl uppercase tracking-tighter rounded-2xl hover:scale-105 hover:bg-[#00f5ff] transition-all duration-500"
             >
-              Start Visualizing Now
-              <ExternalLink className="ml-4 w-8 h-8 opacity-40 group-hover:opacity-100 transition-opacity" />
+              Start Now
+              <ExternalLink className="ml-4 w-6 h-6 md:w-8 md:h-8 opacity-40 group-hover:opacity-100 transition-opacity" />
             </button>
-            <div className="mt-12 flex items-center justify-center space-x-8 opacity-40 text-[10px] font-bold uppercase tracking-[0.4em]">
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-6 md:gap-8 opacity-40 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.4em]">
               <span>OS Powered</span>
               <span>Privacy First</span>
               <span>LMS Ready</span>
@@ -387,7 +387,7 @@ export const LandingPage: React.FC<{ onNavigate: (view: ViewType) => void }> = (
 
       </main>
 
-      <footer className="py-12 border-t border-white/5 bg-black text-center text-[10px] font-mono uppercase tracking-[0.2em] text-white/20">
+      <footer className="py-12 border-t border-white/5 bg-black text-center text-[10px] font-mono uppercase tracking-[0.2em] text-white/20 px-4">
         &copy; 2025 ALGOVIZ x TEACHSTACK • ARCHITECTED FOR THE FUTURE OF LEARNING
       </footer>
 

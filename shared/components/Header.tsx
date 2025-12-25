@@ -37,6 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
               <span className="text-lg font-extrabold text-white tracking-tighter uppercase">
                 ALGO<span className="text-[#00f5ff]">VIZ</span>
               </span>
+              <span className="text-[8px] uppercase tracking-[0.3em] text-[#00f5ff]/50 font-black">2025 Protocol</span>
             </div>
           </button>
 

@@ -5,10 +5,12 @@ import { TreeCanvas } from './components/TreeCanvas';
 import { ControlPanel } from './components/ControlPanel';
 // import { ChatPanel } from '../ai-tutor/ChatPanel';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Book, Brain, Cpu } from 'lucide-react';
+import { ArrowLeft, Book, Brain, Cpu, BookOpen, Sliders } from 'lucide-react';
 import { Button } from '../../shared/components/Button';
 import { Header } from '../../shared/components/Header';
 import { MobileLandscapeAlert } from '../../shared/components/MobileLandscapeAlert';
+import { ConceptWindow } from '../../shared/components/ConceptWindow';
+import { CONCEPTS } from '../../shared/constants';
 
 interface TreeVisualizerProps {
   onBack: () => void;
@@ -31,6 +33,8 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ onBack }) => {
   } = useBinaryTree();
 
   const [showQuiz, setShowQuiz] = useState(false);
+  const [isConceptOpen, setIsConceptOpen] = useState(false);
+  const conceptData = CONCEPTS['binary-tree'];
 
   useEffect(() => {
     const init = async () => {
@@ -41,11 +45,11 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ onBack }) => {
   }, []); 
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#FEFCFB] selection:bg-[#00f5ff] selection:text-black">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#FEFCFB] selection:bg-[#00f5ff] selection:text-black flex flex-col">
       <Header />
       <MobileLandscapeAlert />
       
-      <main className="pt-28 pb-12 px-4 sm:px-8 max-w-7xl mx-auto relative">
+      <main className="flex-1 pt-28 pb-12 px-4 sm:px-8 max-w-7xl mx-auto w-full relative overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -68,7 +72,16 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ onBack }) => {
               </div>
             </div>
             
-            <div className="flex items-center space-x-3 bg-white/5 p-1 rounded-full border border-white/5">
+            <div className="flex items-center space-x-3">
+              <button 
+                onClick={() => setIsConceptOpen(!isConceptOpen)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-full border transition-all ${
+                  isConceptOpen ? 'bg-[#00f5ff] text-black border-[#00f5ff]' : 'bg-white/5 border-white/10 text-[#00f5ff]/70 hover:bg-white/10'
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Logic Docs</span>
+              </button>
                <Button 
                  variant={showQuiz ? 'primary' : 'ghost'} 
                  size="sm"
@@ -82,65 +95,92 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ onBack }) => {
           </div>
 
           {/* Main Layout */}
-          <div className="grid grid-cols-1 gap-8">
-            <div className="glass-card rounded-[2.5rem] p-8 border-white/5">
-              <ControlPanel 
-                onInsert={insert}
-                onDelete={remove}
-                onSearch={search}
-                onClear={clear}
-                onSpeedChange={setSpeed}
-                speed={speed}
-                operation={operation}
-                message={message}
-              />
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            <div className="xl:col-span-2 space-y-8">
+              <div className="glass-card rounded-[2.5rem] p-8 border-white/5">
+                <ControlPanel 
+                  onInsert={insert}
+                  onDelete={remove}
+                  onSearch={search}
+                  onClear={clear}
+                  onSpeedChange={setSpeed}
+                  speed={speed}
+                  operation={operation}
+                  message={message}
+                />
+              </div>
+              
+              <div className="relative glass-card rounded-[3rem] border-white/5 overflow-hidden h-[600px] flex items-center justify-center bg-black/40">
+                 <TreeCanvas nodes={visualNodes} edges={visualEdges} />
+                 
+                 {showQuiz && (
+                   <motion.div 
+                     initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                     className="absolute inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-20 p-4"
+                   >
+                     <div className="glass-card-accent p-12 rounded-[3rem] border-[#00f5ff]/30 max-w-md w-full text-center">
+                       <Brain className="w-16 h-16 text-[#00f5ff] mx-auto mb-8 animate-pulse" />
+                       <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Spatial Reasoning Test</h3>
+                       <p className="text-white/60 mb-10 text-sm leading-relaxed">
+                         Identify the correct insertion path for value <strong className="text-[#00f5ff]">{Math.floor(Math.random() * 100)}</strong>.
+                       </p>
+                       <Button className="w-full" onClick={() => setShowQuiz(false)}>Return to Core</Button>
+                     </div>
+                   </motion.div>
+                 )}
+              </div>
             </div>
-            
-            <div className="relative glass-card rounded-[3rem] border-white/5 overflow-hidden h-[600px] flex items-center justify-center bg-black/40">
-               <TreeCanvas nodes={visualNodes} edges={visualEdges} />
-               
-               {/* Quiz Overlay */}
-               {showQuiz && (
-                 <motion.div 
-                   initial={{ opacity: 0 }} 
-                   animate={{ opacity: 1 }}
-                   className="absolute inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-20 p-4"
-                 >
-                   <div className="glass-card-accent p-12 rounded-[3rem] border-[#00f5ff]/30 max-w-md w-full text-center">
-                     <Brain className="w-16 h-16 text-[#00f5ff] mx-auto mb-8 animate-pulse" />
-                     <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Spatial Reasoning Test</h3>
-                     <p className="text-white/60 mb-10 text-sm leading-relaxed">
-                       Identify the correct insertion path for value <strong className="text-[#00f5ff]">{Math.floor(Math.random() * 100)}</strong> based on the current structure.
-                     </p>
-                     <Button className="w-full" onClick={() => setShowQuiz(false)}>Return to Core</Button>
-                   </div>
-                 </motion.div>
-               )}
-            </div>
-            
-            {/* Educational Notes */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { title: 'Real-World Use', icon: Book, content: 'Database indexing and filesystem structures rely on variants of BSTs for logarithmic efficiency.' },
-                { title: 'Complexity', icon: Cpu, content: 'Search: O(log n)\nInsert: O(log n)\nWorst case (skewed): O(n)' },
-                { title: 'Legend', icon: Brain, content: 'Blue: Default State\nCyan: Active Selection\nWhite: Recursive Search' }
-              ].map((note, i) => (
-                <div key={i} className="glass-card p-8 rounded-[2rem] border-white/5 hover:border-[#00f5ff]/20 transition-all group">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-2 bg-white/5 rounded-lg group-hover:bg-[#00f5ff]/10 transition-all">
-                      <note.icon className="w-4 h-4 text-[#00f5ff]" />
-                    </div>
-                    <h3 className="text-xs font-black uppercase tracking-widest">{note.title}</h3>
+
+            {/* Side Tools */}
+            <div className="space-y-6">
+              <div className="bg-brand-dark p-6 rounded-2xl border border-brand-blue/30 shadow-2xl flex flex-col justify-center">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-2">
+                    <Sliders className="w-4 h-4 text-brand-teal" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-teal/70">System Hz</span>
                   </div>
-                  <p className="text-sm text-white/50 leading-relaxed whitespace-pre-wrap">{note.content}</p>
+                  <span className="text-xs font-mono text-brand-teal font-bold">{speed}ms</span>
                 </div>
-              ))}
+                <input
+                  type="range" min="100" max="1500" step="50"
+                  value={speed} onChange={(e) => setSpeed(Number(e.target.value))}
+                  className="w-full h-1.5 bg-brand-blue/30 rounded-lg appearance-none cursor-pointer accent-brand-teal mb-2"
+                />
+                <div className="flex justify-between text-[8px] font-black uppercase text-white/20 tracking-widest">
+                  <span>Fast</span>
+                  <span>Stable</span>
+                  <span>Educational</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-6">
+                {[
+                  { title: 'Complexity', icon: Cpu, content: 'Search: O(log n)\nInsert: O(log n)\nSpace: O(n)' },
+                  { title: 'Legend', icon: Brain, content: 'Blue: Default\nCyan: Selection\nWhite: Recursive' }
+                ].map((note, i) => (
+                  <div key={i} className="glass-card p-6 rounded-[2rem] border-white/5">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <note.icon className="w-4 h-4 text-[#00f5ff]" />
+                      <h3 className="text-[10px] font-black uppercase tracking-widest">{note.title}</h3>
+                    </div>
+                    <p className="text-xs text-white/50 leading-relaxed whitespace-pre-wrap">{note.content}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
 
+        <ConceptWindow 
+          isOpen={isConceptOpen}
+          onClose={() => setIsConceptOpen(false)}
+          title="Binary Tree"
+          concept={conceptData.concept}
+          pseudocode={conceptData.pseudocode}
+        />
+
         {/* <ChatPanel 
-          context="Binary Search Tree (BST). Nodes have at most two children. Left child < Parent < Right child. Operations: Insert, Delete, Search. Time Complexity: O(log n) average case, O(n) worst case." 
+          context="Binary Search Tree (BST). Left child < Parent < Right child. Average O(log n)." 
           onHighlightNode={highlightValue}
           onBuildStructure={buildTree}
         /> */}

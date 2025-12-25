@@ -38,7 +38,7 @@ const ProtocolText: React.FC<{ text: string }> = ({ text }) => {
 export const ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNode, onBuildStructure }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: `SYSTEM_READY: Analysing ${context}. Initialising Tutor Protocol v4.2. How can I assist in your spatial reasoning?` }
+    { role: 'model', text: `Hello! I'm your AI assistant. I can help answer questions about algorithms, data structures, and visualizations. How can I help you today?` }
   ]);
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
@@ -62,8 +62,13 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNode, 
     setInput('');
     setIsThinking(true);
 
+    // Filter out the initial greeting message from history for API
+    const apiHistory = messages.filter(msg => 
+      !(msg.role === 'model' && msg.text.includes("Hello! I'm your AI assistant"))
+    );
+
     const response = await generateTutorResponse(
-      messages.slice(-5), 
+      apiHistory.slice(-5), 
       input, 
       context,
       onHighlightNode
@@ -78,7 +83,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNode, 
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setMessages(prev => [...prev, { role: 'user', text: `IMG_UPLOAD: ${file.name}` }]);
+    setMessages(prev => [...prev, { role: 'user', text: `Uploaded image: ${file.name}` }]);
     setIsThinking(true);
 
     const reader = new FileReader();
@@ -88,11 +93,11 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNode, 
       
       setIsThinking(false);
       if (numbers && numbers.length > 0) {
-        setMessages(prev => [...prev, { role: 'model', text: `VISION_EXTRACT: Values found: ${numbers.map(n => `$${n}$`).join(', ')}. Constructing structure.` }]);
+        setMessages(prev => [...prev, { role: 'model', text: `I found these numbers in the image: ${numbers.join(', ')}. ${onBuildStructure ? 'Building visualization...' : ''}` }]);
         if (onBuildStructure) onBuildStructure(numbers);
         play('success');
       } else {
-        setMessages(prev => [...prev, { role: 'model', text: "VISION_ERROR: Null structure detected in sensor input." }]);
+        setMessages(prev => [...prev, { role: 'model', text: "I couldn't find any numbers in that image. Try uploading a clearer image with visible numbers." }]);
         play('error');
       }
     };
@@ -154,10 +159,10 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNode, 
                   <Terminal className="w-4 h-4 text-[#00f5ff]" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-[#00f5ff]">AlgoViz CORE</h3>
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-[#00f5ff]">AI Assistant</h3>
                   <div className="flex items-center space-x-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[9px] font-bold text-green-500/70 tracking-widest uppercase">Encryption Active</span>
+                    <span className="text-[9px] font-bold text-green-500/70 tracking-widest uppercase">Online</span>
                   </div>
                 </div>
               </div>
@@ -208,7 +213,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNode, 
                 <button 
                   onClick={() => fileInputRef.current?.click()}
                   className="p-2.5 text-white/30 hover:text-[#00f5ff] transition-all"
-                  title="Upload Geometry"
+                  title="Upload Image"
                 >
                   <ImageIcon className="w-5 h-5" />
                 </button>
@@ -218,7 +223,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNode, 
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Query protocol..."
+                  placeholder="Ask me anything..."
                   className="flex-1 bg-transparent text-white placeholder-white/20 focus:outline-none text-[13px] font-medium"
                 />
 
@@ -238,7 +243,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNode, 
                 </button>
               </div>
               <p className="text-[8px] text-center mt-4 uppercase tracking-[0.3em] font-black text-white/20">
-                Neural Link v4.2 • End-to-End Visual Intelligence
+                AI Assistant • Ready to Help
               </p>
             </div>
           </motion.div>

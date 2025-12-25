@@ -1,18 +1,18 @@
 
-import { GoogleGenAI, FunctionDeclaration, Type } from "@google/genai";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
-// Initialize the Google GenAI client with API key from environment
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Initialize the Google Generative AI client with API key from environment
+const ai = new GoogleGenerativeAI(process.env.API_KEY);
 
 // Tool definition for Gemini to interact with the visualizer
-const highlightTool: FunctionDeclaration = {
+const highlightTool = {
   name: 'highlightNode',
   description: 'Highlight a specific node value in the visualization to explain a concept.',
   parameters: {
-    type: Type.OBJECT,
+    type: SchemaType.OBJECT,
     properties: {
       value: {
-        type: Type.NUMBER,
+        type: SchemaType.NUMBER,
         description: 'The numeric value of the node to highlight.',
       },
     },
@@ -32,67 +32,50 @@ export const generateTutorResponse = async (
   onHighlight?: (val: number) => void
 ): Promise<string> => {
   try {
-    const model = 'gemini-3-pro-preview';
-    
-    const chat = ai.chats.create({
-      model,
-      config: {
-        systemInstruction: `You are the ALGOVIZ CORE TUTOR. You must communicate in a high-fidelity, technical protocol style.
-        
-        STRICT FORMATTING RULES:
-        1. All numbers, time complexities, and variable names MUST be wrapped in single dollar signs with ZERO internal spacing. 
-           Example: Use $10$, not 10. Use $O(log_n)$, not O(log n). Use $root$, not root.
-        2. Keep responses extremely compact. Do not use double newlines. Use single line breaks only if necessary.
-        3. Maintain a "System Console" persona. Be precise, cold, but educational.
-        4. Context: ${context}.
-        5. If explaining a step, use the highlightNode tool for the relevant value.`,
-        tools: [{ functionDeclarations: [highlightTool] }],
-      }
+    const model = ai.getGenerativeModel({
+      model: 'gemini-1.5-pro',
+      systemInstruction: `You are a helpful AI assistant. Answer user queries clearly and accurately. If the context involves algorithms or visualizations, provide educational explanations. Keep responses concise and informative.`,
+      tools: context.includes('visualizer') ? [{ functionDeclarations: [highlightTool] }] : [],
     });
 
-    for (const msg of history) {
-      if (msg.role === 'user') {
-        await chat.sendMessage({ message: msg.text });
-      }
-    }
+    const chat = model.startChat({
+      history: history.map(msg => ({
+        role: msg.role,
+        parts: [{ text: msg.text }],
+      })),
+    });
 
-    const result = await chat.sendMessage({ message: newMessage });
+    const result = await chat.sendMessage(newMessage);
+    const response = result.response;
     
-    const functionCalls = result.functionCalls;
+    const functionCalls = response.functionCalls();
     if (functionCalls && functionCalls.length > 0 && onHighlight) {
       for (const call of functionCalls) {
         if (call.name === 'highlightNode') {
           const args = call.args as Record<string, unknown>;
           if (typeof args.value === 'number') {
-             onHighlight(args.value);
+            onHighlight(args.value);
           }
         }
       }
     }
 
-    return result.text || "SYSTEM_IDLE";
+    return response.text() || "I'm here to help!";
   } catch (error) {
     console.error("AI Error:", error);
-    return "PROTOCOL_ERROR: Connection to neural core lost.";
+    return "Sorry, I encountered an error. Please try again.";
   }
 };
 
 export const analyzeStructureImage = async (base64Image: string): Promise<number[] | null> => {
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: {
-        parts: [
-          { inlineData: { mimeType: 'image/jpeg', data: base64Image } },
-          { text: "Analyze structure. Return ONLY a JSON array of found values in insertion order. Example: [10,20,30]. Return [] if none." }
-        ]
-      },
-      config: {
-        responseMimeType: 'application/json'
-      }
-    });
-
-    const text = response.text;
+    const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const result = await model.generateContent([
+      { text: "Analyze structure. Return ONLY a JSON array of found values in insertion order. Example: [10,20,30]. Return [] if none." },
+      { inlineData: { mimeType: 'image/jpeg', data: base64Image } }
+    ]);
+    const response = result.response;
+    const text = response.text();
     if (!text) return null;
     return JSON.parse(text);
   } catch (error) {

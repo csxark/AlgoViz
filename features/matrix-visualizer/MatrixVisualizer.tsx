@@ -7,7 +7,7 @@ import { ControlPanel } from './components/ControlPanel';
 import { Sidebar } from './components/Sidebar';
 import { Button } from '../../shared/components/Button';
 import { Header } from '../../shared/components/Header';
-// import { ChatPanel } from '../ai-tutor/ChatPanel';
+import { ChatPanel } from '../ai-tutor/ChatPanel';
 import { MobileLandscapeAlert } from '../../shared/components/MobileLandscapeAlert';
 
 interface MatrixVisualizerProps {

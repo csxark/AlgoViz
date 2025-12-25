@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>AlgoViz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -58,6 +58,8 @@
         background-color: #0a0a0a;
         color: #FEFCFB;
         overflow-x: hidden;
+        /* Prevent elastic scroll on mobile visualizers */
+        overscroll-behavior-y: none;
       }
       .perspective-2000 {
         perspective: 2000px;
@@ -97,6 +99,15 @@
       }
       .custom-scrollbar::-webkit-scrollbar-thumb {
         background: rgba(0, 245, 255, 0.2);
+      }
+      /* Interactive Canvas Styles */
+      .canvas-container {
+        touch-action: pinch-zoom;
+      }
+      @media (max-width: 640px) {
+        .hero-title {
+          font-size: clamp(3rem, 15vw, 6rem);
+        }
       }
     </style>
   <script type="importmap">

@@ -1,16 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Plus, Trash2, RotateCw, Link2 } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, RotateCw, Link2, BookOpen, Sliders } from 'lucide-react';
 import { useLinkedListAnimation } from './hooks/useLinkedListAnimation';
 import { ListNode } from './components/ListNode';
 import { PlaybackControls } from './components/PlaybackControls';
 import { Sidebar } from './components/Sidebar';
 import { Button } from '../../shared/components/Button';
 import { Header } from '../../shared/components/Header';
-import { LinkedListNode } from './types';
+import { LinkedListNode, PlaybackSpeed } from './types';
 // import { ChatPanel } from '../ai-tutor/ChatPanel';
 import { MobileLandscapeAlert } from '../../shared/components/MobileLandscapeAlert';
+import { ConceptWindow } from '../../shared/components/ConceptWindow';
+import { CONCEPTS } from '../../shared/constants';
 
 interface LinkedListVisualizerProps {
   onBack: () => void;
@@ -30,6 +32,9 @@ export const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({ onBa
     setSpeed,
     actions
   } = useLinkedListAnimation();
+
+  const [isConceptOpen, setIsConceptOpen] = useState(false);
+  const conceptData = CONCEPTS['linked-list'];
 
   const getOrderedNodes = (nodes: LinkedListNode[], headId: string | null): LinkedListNode[] => {
     if (!headId) return [];
@@ -72,48 +77,48 @@ export const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({ onBa
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:space-x-3">
-              <Button size="sm" onClick={() => actions.insertHead(Math.floor(Math.random() * 99))} disabled={isBusy}>
-                <Plus className="w-3 h-3 mr-2" /> Add Head
-              </Button>
-              <Button size="sm" variant="secondary" onClick={() => actions.insertTail(Math.floor(Math.random() * 99))} disabled={isBusy}>
-                <Plus className="w-3 h-3 mr-2" /> Add Tail
-              </Button>
-              <Button size="sm" variant="outline" onClick={actions.reverse} disabled={isBusy || displayNodes.length < 2}>
-                <RotateCw className="w-3 h-3 mr-2" /> Reverse
-              </Button>
-              <Button size="sm" variant="outline" onClick={() => actions.deleteNode(displayNodes[0]?.value || 0)} disabled={isBusy || displayNodes.length === 0} className="text-red-400 border-red-900/20">
-                <Trash2 className="w-3 h-3" />
-              </Button>
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={() => setIsConceptOpen(!isConceptOpen)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-full border transition-all ${
+                  isConceptOpen ? 'bg-[#00f5ff] text-black border-[#00f5ff]' : 'bg-white/5 border-white/10 text-[#00f5ff]/70 hover:bg-white/10'
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Logic Docs</span>
+              </button>
+              <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:space-x-3">
+                <Button size="sm" onClick={() => actions.insertHead(Math.floor(Math.random() * 99))} disabled={isBusy}>
+                  <Plus className="w-3 h-3 mr-2" /> Add Head
+                </Button>
+                <Button size="sm" variant="outline" onClick={actions.reverse} disabled={isBusy || displayNodes.length < 2}>
+                  <RotateCw className="w-3 h-3 mr-2" /> Reverse
+                </Button>
+              </div>
             </div>
+          </div>
+
+          {/* System Hz Sub-Header */}
+          <div className="px-8 py-4 bg-black/40 border-b border-white/5 flex items-center justify-between">
+            <div className="flex items-center space-x-4 flex-1 max-w-xs">
+              <Sliders className="w-4 h-4 text-[#00f5ff]/50" />
+              <input 
+                type="range" min="0.5" max="2" step="0.5"
+                value={speed} onChange={(e) => setSpeed(Number(e.target.value) as PlaybackSpeed)}
+                className="flex-1 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#00f5ff]"
+              />
+              <span className="text-[10px] font-mono text-[#00f5ff]">{speed}x Hz</span>
+            </div>
+            <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">O(1) Insertion Ready</div>
           </div>
 
           <div className="flex-1 bg-[#0a0a0a] relative overflow-hidden flex flex-col min-h-[400px]">
             <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
-            
             <div className="flex-1 overflow-x-auto overflow-y-hidden flex items-center px-12">
-              <div className="absolute top-8 left-0 right-0 text-center pointer-events-none z-10 px-8">
-                <motion.div
-                  key={currentStep.message}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="inline-block px-6 py-2 bg-[#00f5ff]/10 border border-[#00f5ff]/20 backdrop-blur-xl rounded-full text-[10px] font-black uppercase tracking-widest text-[#00f5ff] shadow-2xl"
-                >
-                  {currentStep.message}
-                </motion.div>
-              </div>
-
               <div className="flex items-center space-x-0 min-w-max mx-auto py-20">
                 <AnimatePresence mode='popLayout'>
                   {displayNodes.map((node, index) => (
-                    <motion.div
-                      key={node.id}
-                      layout
-                      initial={{ opacity: 0, x: -50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, scale: 0.5, y: 20 }}
-                      transition={{ duration: 0.4 }}
-                    >
+                    <motion.div key={node.id} layout initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, scale: 0.5, y: 20 }}>
                       <ListNode 
                         value={node.value}
                         highlight={currentStep.highlightedIds.includes(node.id)}
@@ -122,12 +127,6 @@ export const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({ onBa
                       />
                     </motion.div>
                   ))}
-                  
-                  {displayNodes.length === 0 && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-white/20 font-black uppercase tracking-[0.3em] text-xs border border-white/5 rounded-3xl px-20 py-10 bg-white/[0.02]">
-                      Buffer Null
-                    </motion.div>
-                  )}
                 </AnimatePresence>
               </div>
             </div>
@@ -135,23 +134,26 @@ export const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({ onBa
 
           <div className="shrink-0 bg-black/40 backdrop-blur-xl border-t border-white/5">
             <PlaybackControls 
-              isPlaying={isPlaying}
-              onPlay={play}
-              onPause={pause}
-              onStepForward={stepForward}
-              onStepBackward={stepBackward}
-              currentStep={currentStepIndex}
-              totalSteps={totalSteps}
-              speed={speed}
-              onSpeedChange={setSpeed}
+              isPlaying={isPlaying} onPlay={play} onPause={pause}
+              onStepForward={stepForward} onStepBackward={stepBackward}
+              currentStep={currentStepIndex} totalSteps={totalSteps}
+              speed={speed} onSpeedChange={setSpeed}
             />
           </div>
         </main>
 
         <Sidebar />
+
+        <ConceptWindow 
+          isOpen={isConceptOpen}
+          onClose={() => setIsConceptOpen(false)}
+          title="Linked List"
+          concept={conceptData.concept}
+          pseudocode={conceptData.pseudocode}
+        />
         
         {/* <ChatPanel 
-          context="Singly Linked List. Linear nodes. O(1) Head ops. O(n) Access. Memory is dynamic."
+          context="Singly Linked List. Linear nodes. O(1) Head ops."
           onHighlightNode={(val) => actions.insertTail(val)}
         /> */}
       </div>
